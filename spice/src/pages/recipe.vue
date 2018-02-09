@@ -14,6 +14,26 @@
                     <el-button type="info" @click="resetForm" icon="el-icon-refresh">重置</el-button>
                 </div>
             </div>
+            <div class="title"><i class="el-icon-menu"></i>配方导入</div>
+            <div class="display-flex">
+                <el-upload
+                    class="upload-demo"
+                    ref="upload"
+                    action="/spice/recipe/import"
+                    name="file"
+                    :on-preview="handlePreview"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :on-remove="handleRemove"
+                    :file-list="fileList"
+                    :on-exceed="handleExceed"
+                    :limit="1"
+                    :auto-upload="false">
+                    <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                    <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+                    <div slot="tip" class="el-upload__tip">只能上传xls/xlsx文件</div>
+                </el-upload>
+            </div>
             <div class="title"><i class="el-icon-menu"></i>配方详情</div>
             <div class="display-flex">
                 <div class="form-label">配方编号</div>
@@ -38,7 +58,7 @@
                 <el-button @click="addMainRecipe" style="margin-left: 10px;" type="primary" icon="el-icon-circle-plus">添加</el-button>
             </div>
             <div class="table-area">
-                <el-table :data="mainRecipeData" style="width: 750px;border: 1px solid #c2c2c2;" >
+                <el-table :data="mainRecipeData" style="width: 890px;border: 1px solid #c2c2c2;" >
                     <el-table-column label="大料单" >
                         <el-table-column label="材料" width="340">
                             <template slot-scope="scope">
@@ -50,9 +70,10 @@
                                 <el-input v-model="mainRecipeData[scope.$index].scale" @input="costCount" placeholder="请输入内容"></el-input>
                             </template>
                         </el-table-column>
-                        <el-table-column label="操作" width="110">
+                        <el-table-column label="操作" width="250">
                             <template slot-scope="scope">
                                 <el-button type="danger" @click="deleteMainRecipe(scope.$index)" icon="el-icon-remove">删除</el-button>
+                                <el-button type="success" @click="moveToSecondRecipe(scope.$index)" icon="el-icon-download">移到小料</el-button>
                             </template>
                         </el-table-column>
                     </el-table-column>
@@ -71,7 +92,7 @@
                 <el-button @click="addSecondRecipe" style="margin-left: 10px;" type="primary" icon="el-icon-circle-plus">添加</el-button>
             </div>
             <div class="table-area">
-                <el-table :data="secondRecipeData" style="width: 750px;border: 1px solid #c2c2c2;" >
+                <el-table :data="secondRecipeData" style="width: 890px;border: 1px solid #c2c2c2;" >
                     <el-table-column label="小料单" >
                         <el-table-column label="材料" width="340">
                             <template slot-scope="scope">
@@ -83,9 +104,10 @@
                                 <el-input v-model="secondRecipeData[scope.$index].scale" @input="costCount" placeholder="请输入内容"></el-input>
                             </template>
                         </el-table-column>
-                        <el-table-column label="操作" width="110">
+                        <el-table-column label="操作" width="250">
                             <template slot-scope="scope">
                                 <el-button type="danger" @click="deleteSecondRecipe(scope.$index)" icon="el-icon-remove">删除</el-button>
+                                <el-button type="success" @click="moveToMainRecipe(scope.$index)" icon="el-icon-upload2">移到大料</el-button>
                             </template>
                         </el-table-column>
                     </el-table-column>
@@ -102,6 +124,7 @@
 export default {
     data() {
         return {
+            fileList: [],
             searchKey: '', // 查询的配方ID
             searchFlag: false, // 是否通过查询获得的配方信息，区分新增还是修改操作
             cost: '0  元', // 成本统计
@@ -132,9 +155,32 @@ export default {
         this.getRecipeList()
     },
     beforeUpdate() {
-        console.log('111======')
     },
     methods: {
+        submitUpload() {
+            this.$refs.upload.submit()
+        },
+        handleExceed(files, fileList) {
+            this.$message.warning('每次只能导入一个配方')
+        },
+        handleSuccess(res, file, fileList) {
+            console.log(res)
+            if (res.errCode === this.$http.SUCCESS) {
+                this.$refs.upload.clearFiles()
+                var result = res.result
+                this.recipeId = result.recipeId
+                this.recipeName = result.recipeName
+                console.log(result.mainRecipe)
+                this.mainRecipeData = result.mainRecipe
+                this.secondRecipeData = result.secondRecipe
+                this.costCount()
+                // this.searchFlag = true
+            } else {
+                this.$message.error('配方信息导入失败！')
+            }
+        },
+        handleError(response, file, fileList) {
+        },
         // 成本统计
         costCount() {
             var costTemp = 0
@@ -142,9 +188,7 @@ export default {
                 if (this.mainRecipeData[i].materialInfo && this.mainRecipeData[i].scale !== '') {
                     for (var j = 0; j < this.materialList.length; j++) {
                         if (this.mainRecipeData[i].materialInfo.materialId === this.materialList[j].materialId) {
-                            console.log(Math.round(parseFloat(this.mainRecipeData[i].scale) * parseFloat(this.materialList[j].materialPrice) / 1000 * 100) / 100)
                             costTemp = costTemp + Math.round(parseFloat(this.mainRecipeData[i].scale) * parseFloat(this.materialList[j].materialPrice) / 1000 * 100) / 100
-                            console.log('==' + costTemp)
                         }
                     }
                 }
@@ -168,7 +212,6 @@ export default {
                 // console.log(item.materialId)
                 return item.materialId + '-' + item.materialName
             } catch (e) {
-                console.log(item)
             }
         },
         // 配方信息格式化
@@ -221,7 +264,7 @@ export default {
                 this.$message.error('材料分量不能为空！')
                 return
             }
-            if (this.$util.isNum(this.mainRecipeScale)) {
+            if (!this.$util.isNum(this.mainRecipeScale)) {
                 this.$message.error('材料分量请输入数字！')
                 return false
             }
@@ -240,6 +283,14 @@ export default {
         deleteMainRecipe(index) {
             this.mainRecipeData.splice(index, 1)
         },
+        moveToSecondRecipe(index) {
+            var data = this.mainRecipeData.splice(index, 1)
+            this.secondRecipeData = this.secondRecipeData.concat(data)
+        },
+        moveToMainRecipe(index) {
+            var data = this.secondRecipeData.splice(index, 1)
+            this.mainRecipeData = this.mainRecipeData.concat(data)
+        },
         // UI操作，增加小料单材料输入项
         addSecondRecipe() {
             if (this.$util.isNull(this.secondRecipeIndex)) {
@@ -250,7 +301,7 @@ export default {
                 this.$message.error('材料分量不能为空！')
                 return
             }
-            if (this.$util.isNum(this.secondRecipeScale)) {
+            if (!this.$util.isNum(this.secondRecipeScale)) {
                 this.$message.error('材料分量请输入数字！')
                 return false
             }
@@ -267,7 +318,6 @@ export default {
         },
         // UI操作，删除下料单材料输入项
         deleteSecondRecipe(index) {
-            console.log(index)
             this.secondRecipeData.splice(index, 1)
         },
         // 重置页面表单项

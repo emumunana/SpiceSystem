@@ -12,7 +12,7 @@
                     <el-input v-model="material.materialName" placeholder="材料名称"></el-input>
                 </div>
                 <div class="display-flex">
-                    <div class="form-label" style="width:280px;">材料单价（单位：元）</div>
+                    <div class="form-label" style="width:320px;">材料单价（单位：元/KG）</div>
                     <el-input v-model="material.materialPrice" placeholder="材料单价"></el-input>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <el-table-column fixed label="" width="10"></el-table-column>
                     <el-table-column  prop="materialId" label="材料编码" width="260"></el-table-column>
                     <el-table-column  prop="materialName" label="材料名称" width="350"></el-table-column>
-                    <el-table-column  prop="materialPrice" label="材料单价（单位：元）" width="350"></el-table-column>
+                    <el-table-column  prop="materialPrice" label="材料单价（单位：元/KG）" width="350"></el-table-column>
                     <el-table-column fixed="right" label="操作" width="150">
                         <template slot-scope="scope">
                             <el-button @click.native.prevent="deleteMeterial(scope.$index)" type="text" size="small">移除</el-button>

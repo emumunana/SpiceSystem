@@ -76,13 +76,14 @@
                 </tr>
             </table>
             <div :class="productionClass" style="margin-top:20px;">
-                <table  cellspacing="0">
+                <table cellspacing="0" style="width: 880px;">
                     <tr>
-                        <td style="width: 120px;">序号</td>
+                        <td style="width: 60px;">序号</td>
                         <td style="width: 120px;">编码</td>
                         <td style="width: 320px;">名称</td>
-                        <td style="width: 180px;">数量 / 克</td>
-                        <td style="width: 120px;">备注</td>
+                        <td style="width: 140px;">数量 / 克</td>
+                        <td style="width: 140px;">确认</td>
+                        <td style="width: 80px;">备注</td>
                     </tr>
                     <tr v-for="(item, index) in mainRecipeData" v-bind:key="item.materialInfo.materialId">
                         <td>{{index + 1}}</td>
@@ -91,12 +92,14 @@
                         <td v-else style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
                         <td >{{countScale(item.scale)}}</td>
                         <td></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>合计</td>
                         <td></td>
                         <td></td>
-                        <td>{{(Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100)) / 10}}</td>
+                        <td>{{$util.formatNum((Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </table>
@@ -127,13 +130,14 @@
                 </tr>
             </table>
             <div :class="productionClass2" style="margin-top:20px;">
-                <table cellspacing="0">
+                <table cellspacing="0" style="width: 880px;">
                     <tr>
-                        <td style="width: 120px;">序号</td>
+                        <td style="width: 60px;">序号</td>
                         <td style="width: 120px;">编码</td>
                         <td style="width: 320px;">名称</td>
-                        <td style="width: 180px;">数量 / 克</td>
-                        <td style="width: 120px;">备注</td>
+                        <td style="width: 140px;">数量 / 克</td>
+                        <td style="width: 140px;">确认</td>
+                        <td style="width: 80px;">备注</td>
                     </tr>
                     <tr v-for="(item, index) in secondRecipeData" v-bind:key="item.materialInfo.materialId">
                         <td>{{index + 1}}</td>
@@ -141,12 +145,14 @@
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
                         <td>{{countScale(item.scale)}}</td>
                         <td></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>合计</td>
                         <td></td>
                         <td></td>
-                        <td>{{(Math.round(secondRecipeScale * parseFloat(proSize ? proSize : 0) * 100)) / 10}}</td>
+                        <td>{{$util.formatNum((Math.round(secondRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </table>
@@ -165,19 +171,21 @@
                 <!-- <label>总量：{{(Math.round(secondRecipeScale * parseFloat(proSize ? proSize : 0) * 100)) / 10}}</label> -->
             </div>
             <div :class="productionClass3" style="margin-top:20px;">
-                <table cellspacing="0">
+                <table cellspacing="0" style="width: 880px;">
                     <tr>
-                        <td style="width: 120px;">序号</td>
+                        <td style="width: 60px;">序号</td>
                         <td style="width: 120px;">编码</td>
                         <td style="width: 320px;">名称</td>
-                        <td style="width: 180px;">数量 / 克</td>
-                        <td style="width: 120px;">备注</td>
+                        <td style="width: 140px;">数量 / 克</td>
+                        <td style="width: 140px;">确认</td>
+                        <td style="width: 80px;">备注</td>
                     </tr>
                     <tr v-for="(item, index) in mainRecipeData" v-if="index !==  (mainRecipeData.length -1)" v-bind:key="item.materialInfo.materialId">
                         <td>{{index + 1}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialId}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
                         <td >{{countScale(item.scale)}}</td>
+                        <td></td>
                         <td></td>
                     </tr>
                     <tr v-for="(item, index) in secondRecipeData" v-bind:key="item.materialInfo.materialId">
@@ -186,12 +194,14 @@
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
                         <td>{{countScale(item.scale)}}</td>
                         <td></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>合计</td>
                         <td></td>
                         <td></td>
-                        <td>{{(Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100)) / 10}}</td>
+                        <td>{{$util.formatNum((Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </table>
@@ -246,15 +256,16 @@ export default {
                 '联福英文标签',
                 '中性中文标签',
                 '中性英文标签',
-                '其他'
+                '其它'
             ], // 标签信息枚举
             tagList2: [
-                '洗衣液', '皂液', '柔顺剂', '洗衣片', '洗衣粉', '洁厕剂', '清洗剂', '地板水', '蜡烛', '素油', 'PVC', '洗发水', '沐浴露', '洗面奶', '洗手液', '空清', '香膏', '湿纸巾', '扩香机精油', '香水', '护肤品', '香体露', '佛像', '车蜡，标板蜡', '除锈剂', '手工皂', '机制皂', '冷制皂'
+                '洗衣液', '皂液', '柔顺剂', '洗衣片', '洗衣粉', '洁厕剂', '清洗剂', '地板水', '蜡烛', '素油', 'PVC', '洗发水', '沐浴露', '洗面奶', '洗手液', '空清', '香膏', '湿纸巾', '扩香机精油', '香水', '护肤品', '香体露', '佛像', '车蜡，标板蜡', '除锈剂', '手工皂', '机制皂', '冷制皂', '其它'
             ], // 标签信息枚举
             packageSizeList: [
                 '5L 塑料桶',
                 '25L 塑料桶',
-                '25L 铁桶'
+                '25L 铁桶',
+                '其它'
             ], // 包装信息枚举
             mainRecipeScale: 0, // 大料单单位总量统计
             secondRecipeScale: 0, // 小料单单位总量统计
@@ -275,7 +286,7 @@ export default {
         // 计算每种材料分量
         countScale(scale) {
             if (this.proSize) {
-                return (Math.round(parseFloat(scale) * parseFloat(this.proSize) * 100)) / 10
+                return this.$util.formatNum((Math.round(parseFloat(scale) * parseFloat(this.proSize) * 100000)) / 10000)
             } else {
                 return 0
             }
@@ -454,6 +465,7 @@ export default {
 .production-info table tr td{
     border: 1px solid #000;
     text-align: center;
+    word-break:break-all;
 }
 .table-footer {
     display: none;

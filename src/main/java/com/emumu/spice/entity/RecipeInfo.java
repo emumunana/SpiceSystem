@@ -63,7 +63,7 @@ public class RecipeInfo implements Serializable{
 
             }
         }
-        return list;
+        return list != null ? list : this.mainRecipe;
     }
 
     public void setSecondRecipe(List<RecipeDetail> secondRecipe) {
@@ -81,7 +81,7 @@ public class RecipeInfo implements Serializable{
 
             }
         }
-        return list;
+        return list != null ? list : this.secondRecipe;
     }
 
     public void setMainRecipeStream(byte[] mainRecipeStream) {
