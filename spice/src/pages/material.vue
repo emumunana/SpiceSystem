@@ -157,7 +157,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$http.get(this, '/material/delete', {materialId: this.materialInfo[row].materialId}, res => {
+                this.$http.get(this, '/material/delete', {materialId: encodeURIComponent(this.materialInfo[row].materialId)}, res => {
                     if (res.data.errCode === this.$http.SUCCESS) {
                         var newList = []
                         for (var index in this.materialInfo) {

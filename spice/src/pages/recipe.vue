@@ -21,10 +21,8 @@
                     ref="upload"
                     action="/spice/recipe/import"
                     name="file"
-                    :on-preview="handlePreview"
                     :on-success="handleSuccess"
                     :on-error="handleError"
-                    :on-remove="handleRemove"
                     :file-list="fileList"
                     :on-exceed="handleExceed"
                     :limit="1"
@@ -458,13 +456,17 @@ export default {
                 inputType: 'password',
                 inputErrorMessage: '密码格式不正确'
             }).then(({value}) => {
-                this.$http.post(this, '/recipe/delete', {recipeId: this.recipeId, password: value}, res => {
+                var verifyInfo = {
+                    password: value
+                }
+                this.$http.post(this, '/recipe/delete', {recipeId: this.recipeId, verifyInfo: verifyInfo}, res => {
                     if (res.data.errCode === this.$http.SUCCESS) {
                         this.resetForm()
                         this.$message({
                             type: 'success',
                             message: '配方信息删除成功!'
                         })
+                        this.recipeList = res.data.result
                     } else if (res.data.errCode === this.$http.DELETE_FAIL_1) {
                         this.$message.error('密码错误！')
                     } else {

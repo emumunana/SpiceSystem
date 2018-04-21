@@ -205,6 +205,9 @@ public class RecipeInfoService {
             return resultInfo;
         }
         int result = recipeInfoMapper.deleteRecipeInfoById(recipeInfo.getRecipeId());
+        if(result == 1) {
+        		resultInfo = this.listRecipeInfo();
+        }
         resultInfo.setErrCode(result == 1 ? ResultInfo.SUCCESS : ResultInfo.DELETE_FAIL);
         return resultInfo;
     }

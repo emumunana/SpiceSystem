@@ -76,13 +76,13 @@
                 </tr>
             </table>
             <div :class="productionClass" style="margin-top:20px;">
-                <table cellspacing="0" style="width: 880px;">
+                <table cellspacing="0" style="width: 860px;">
                     <tr>
                         <td style="width: 60px;">序号</td>
-                        <td style="width: 120px;">编码</td>
+                        <td style="width: 160px;">编码</td>
                         <td style="width: 320px;">名称</td>
-                        <td style="width: 140px;">数量 / 克</td>
-                        <td style="width: 140px;">确认</td>
+                        <td style="width: 110px;">添加量 / 克</td>
+                        <td style="width: 110px;">确认</td>
                         <td style="width: 80px;">备注</td>
                     </tr>
                     <tr v-for="(item, index) in mainRecipeData" v-bind:key="item.materialInfo.materialId">
@@ -90,7 +90,7 @@
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialId}}</td>
                         <td v-if="index ===  (mainRecipeData.length -1)" style="text-align:left;padding-left:5px;">{{proNo}} {{item.materialInfo.materialName}}</td>
                         <td v-else style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
-                        <td >{{countScale(item.scale)}}</td>
+                        <td style="text-align:right;padding-right:5px;">{{countScale(item.scale)}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -98,7 +98,7 @@
                         <td>合计</td>
                         <td></td>
                         <td></td>
-                        <td>{{$util.formatNum((Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
+                        <td style="text-align:right;padding-right:5px;">{{$util.formatNum((Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -130,20 +130,20 @@
                 </tr>
             </table>
             <div :class="productionClass2" style="margin-top:20px;">
-                <table cellspacing="0" style="width: 880px;">
+                <table cellspacing="0" style="width: 860px;">
                     <tr>
                         <td style="width: 60px;">序号</td>
-                        <td style="width: 120px;">编码</td>
+                        <td style="width: 160px;">编码</td>
                         <td style="width: 320px;">名称</td>
-                        <td style="width: 140px;">数量 / 克</td>
-                        <td style="width: 140px;">确认</td>
+                        <td style="width: 110px;">添加量 / 克</td>
+                        <td style="width: 110px;">确认</td>
                         <td style="width: 80px;">备注</td>
                     </tr>
                     <tr v-for="(item, index) in secondRecipeData" v-bind:key="item.materialInfo.materialId">
                         <td>{{index + 1}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialId}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
-                        <td>{{countScale(item.scale)}}</td>
+                        <td style="text-align:right;padding-right:5px;">{{countScale(item.scale)}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -151,7 +151,7 @@
                         <td>合计</td>
                         <td></td>
                         <td></td>
-                        <td>{{$util.formatNum((Math.round(secondRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
+                        <td style="text-align:right;padding-right:5px;">{{$util.formatNum((Math.round(secondRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -171,20 +171,20 @@
                 <!-- <label>总量：{{(Math.round(secondRecipeScale * parseFloat(proSize ? proSize : 0) * 100)) / 10}}</label> -->
             </div>
             <div :class="productionClass3" style="margin-top:20px;">
-                <table cellspacing="0" style="width: 880px;">
+                <table cellspacing="0" style="width: 860px;">
                     <tr>
                         <td style="width: 60px;">序号</td>
-                        <td style="width: 120px;">编码</td>
+                        <td style="width: 160px;">编码</td>
                         <td style="width: 320px;">名称</td>
-                        <td style="width: 140px;">数量 / 克</td>
-                        <td style="width: 140px;">确认</td>
+                        <td style="width: 110px;">添加量 / 克</td>
+                        <td style="width: 110px;">确认</td>
                         <td style="width: 80px;">备注</td>
                     </tr>
                     <tr v-for="(item, index) in mainRecipeData" v-if="index !==  (mainRecipeData.length -1)" v-bind:key="item.materialInfo.materialId">
                         <td>{{index + 1}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialId}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
-                        <td >{{countScale(item.scale)}}</td>
+                        <td style="text-align:right;padding-right:5px;">{{countScale(item.scale)}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -192,7 +192,7 @@
                         <td>{{index + mainRecipeData.length}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialId}}</td>
                         <td style="text-align:left;padding-left:5px;">{{item.materialInfo.materialName}}</td>
-                        <td>{{countScale(item.scale)}}</td>
+                        <td style="text-align:right;padding-right:5px;">{{countScale(item.scale)}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -200,7 +200,7 @@
                         <td>合计</td>
                         <td></td>
                         <td></td>
-                        <td>{{$util.formatNum((Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
+                        <td style="text-align:right;padding-right:5px;">{{$util.formatNum((Math.round(mainRecipeScale * parseFloat(proSize ? proSize : 0) * 100000)) / 10000)}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -325,8 +325,10 @@ export default {
                     var mainRecipeDataTemp = []
                     var mainRecipeScale = 0
                     for (var i = 0; i < result.mainRecipe.length; i++) {
+                        var matchFlag = false
                         for (var j = 0; j < this.materialList.length; j++) {
                             if (this.materialList[j].materialId === result.mainRecipe[i].materialInfo.materialId) {
+                                matchFlag = true
                                 mainRecipeDataTemp.push({
                                     materialInfo: this.materialList[j],
                                     scale: result.mainRecipe[i].scale
@@ -335,13 +337,22 @@ export default {
                                 break
                             }
                         }
+                        if (!matchFlag) {
+                            mainRecipeDataTemp.push({
+                                materialInfo: result.mainRecipe[i].materialInfo,
+                                scale: result.mainRecipe[i].scale
+                            })
+                            mainRecipeScale = mainRecipeScale + parseFloat(result.mainRecipe[i].scale)
+                        }
                     }
                     this.mainRecipeData = mainRecipeDataTemp
                     var secondRecipeDataTemp = []
                     var secondRecipeScale = 0
                     for (var n = 0; n < result.secondRecipe.length; n++) {
+                        var matchFlag2 = false
                         for (var m = 0; m < this.materialList.length; m++) {
                             if (this.materialList[m].materialId === result.secondRecipe[n].materialInfo.materialId) {
+                                matchFlag2 = true
                                 secondRecipeDataTemp.push({
                                     materialInfo: this.materialList[m],
                                     scale: result.secondRecipe[n].scale
@@ -349,6 +360,13 @@ export default {
                                 secondRecipeScale = secondRecipeScale + parseFloat(result.secondRecipe[n].scale)
                                 break
                             }
+                        }
+                        if (!matchFlag2) {
+                            secondRecipeDataTemp.push({
+                                materialInfo: result.secondRecipe[n].materialInfo,
+                                scale: result.secondRecipe[n].scale
+                            })
+                            secondRecipeScale = secondRecipeScale + parseFloat(result.secondRecipe[n].scale)
                         }
                     }
                     mainRecipeDataTemp.push({
@@ -420,7 +438,7 @@ export default {
                 return
             }
             this.productionClass = 'production-info print-object'
-            this.productionClass2 = 'production-info'
+            this.productionClass2 = 'production-info print-display-none'
             this.productionClass3 = 'production-info display-none'
             this.mainPrintHead = 'print-head'
             this.secondPrintHead = ''
@@ -434,7 +452,7 @@ export default {
                 return
             }
             this.productionClass2 = 'production-info print-object2'
-            this.productionClass = 'production-info'
+            this.productionClass = 'production-info print-display-none'
             this.productionClass3 = 'production-info display-none'
             this.mainPrintHead = ''
             this.secondPrintHead = 'print-head'
@@ -447,8 +465,8 @@ export default {
                 return
             }
             this.productionClass3 = 'production-info print-all print-object display-none'
-            this.productionClass = 'production-info'
-            this.productionClass2 = 'production-info'
+            this.productionClass = 'production-info print-display-none'
+            this.productionClass2 = 'production-info print-display-none'
             this.mainPrintHead = 'print-head'
             this.secondPrintHead = ''
             setTimeout(function() {
@@ -483,8 +501,11 @@ export default {
     *{
         visibility: hidden
     }
+    table{
+        font-size: 18px;
+    }
     .print-head{
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 50px;
         visibility: visible;
@@ -502,13 +523,13 @@ export default {
         display: flex;
     }
     .print-object{
-        position: fixed;
+        position: absolute;
         top: 140px;
         left: 50px;
         visibility: visible;
     }
     .print-object2{
-        position: fixed;
+        position: absolute;
         top: 60px;
         left: 50px;
         visibility: visible;
@@ -524,6 +545,9 @@ export default {
     }
     .print-all{
         display: block;
+    }
+    .print-display-none{
+        display: none;
     }
 }
 </style>
